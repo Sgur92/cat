@@ -3,221 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard - Atracker Institute</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<title>Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 <style>
-body {
-  margin:0;
-  font-family:'Roboto', sans-serif;
-  background: linear-gradient(135deg, #0a1f44, #1e3c72);
-  background-size:400% 400%;
-  animation: gradientBG 15s ease infinite;
-  overflow-x:hidden;
-}
-@keyframes gradientBG{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
-
-/* Sidebar */
-.sidebar {
-  position: fixed;
-  top:60px;
-  left:-250px;
-  width:250px;
-  height:100%;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
-  border-right:1px solid rgba(255,255,255,0.3);
-  box-shadow: 2px 0 20px rgba(0,0,0,0.4);
-  transition: left 0.7s ease;
-  padding-top: 20px;
-  z-index: 999;
-}
-.sidebar.active { left:0; }
-.sidebar h3 {
-  color:#fff;
-  text-align:center;
-  margin-bottom:2rem;
-  text-shadow:0 0 5px rgba(0,0,0,0.3);
-}
-.sidebar ul { list-style:none; padding:0; }
-.sidebar ul li {
-  padding: 1rem 1.5rem;
-  color:#fff;
-  font-weight:500;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  opacity:0;
-  transform: translateX(-20px);
-  transition: all 0.5s ease;
-}
-.sidebar.active ul li {
-  opacity:1;
-  transform: translateX(0);
-}
-.sidebar.active ul li:nth-child(1){ transition-delay: 0.05s; }
-.sidebar.active ul li:nth-child(2){ transition-delay: 0.10s; }
-.sidebar.active ul li:nth-child(3){ transition-delay: 0.15s; }
-.sidebar.active ul li:nth-child(4){ transition-delay: 0.20s; }
-.sidebar.active ul li:nth-child(5){ transition-delay: 0.25s; }
-.sidebar ul li:hover {
-  background: rgba(255,255,255,0.25);
-  border-radius:8px;
-  transform: translateX(5px);
-}
-.sidebar ul li .material-icons { margin-right:1rem; transition: color 0.3s ease; }
-.sidebar ul li:hover .material-icons { color:#ffd700; }
-
-/* Topbar */
-.topbar {
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:60px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
-  border-bottom:1px solid rgba(255,255,255,0.3);
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
-  padding:0 1rem;
-  box-sizing:border-box;
-  z-index: 1000;
-}
-.topbar h2 {
-  color:#fff;
-  text-shadow:0 0 5px rgba(0,0,0,0.3);
-  margin:0;
-  font-size:1.4rem;
-  text-align:center;
-  flex:1;
-}
-.menu-btn {
-  font-size:2rem;
-  color:#fff;
-  cursor:pointer;
-  transition:0.3s;
-  z-index: 1001;
-}
-.menu-btn:hover { color:#ffd700; }
-
-.logout-btn {
-  padding:0.5rem 1rem;
-  background:#ffd700;
-  color:#1e3c72;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:500;
-  transition:0.3s;
-}
-.logout-btn:hover { background:#e6c200; }
-
-/* Main content */
-.main {
-  margin-top:60px;
-  margin-left:0;
-  padding:2rem;
-  transition: margin-left 0.7s ease;
-  color:#fff;
-}
-.sidebar.active ~ .main { margin-left:250px; }
-
-/* Cards */
-.cards {
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap:1.5rem;
-}
-.card {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
-  padding:2rem;
-  border-radius:15px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-  text-align:center;
-  transition: all 0.3s ease;
-  cursor:pointer;
-}
-.card:hover { transform: scale(1.05) translateY(-5px); box-shadow:0 15px 35px rgba(0,0,0,0.5); }
-.card .material-icons { font-size:3rem; margin-bottom:1rem; color:#ffd700; }
-
-/* Fade in cards */
-.card { opacity:0; transform: translateY(20px); transition: all 0.6s ease; }
-.card.visible { opacity:1; transform: translateY(0); }
-
-/* Responsive */
-@media(max-width:768px){
-  .sidebar { left:-250px; }
-  .sidebar.active ~ .main { margin-left:0; }
-}
+  body { margin:0; font-family:'Poppins', sans-serif; display:flex; height:100vh; }
+  #sidebar { width:250px; background:#1e1e2f; color:white; display:flex; flex-direction:column; }
+  #sidebar button { background:none; border:none; color:white; padding:15px; cursor:pointer; text-align:left; font-size:16px; transition:0.3s; }
+  #sidebar button:hover { background:#333; }
+  #main { flex:1; padding:20px; overflow-y:auto; background:#f4f4f9; }
+  input, button { margin:5px 0; padding:8px; width:100%; font-size:14px; }
+  table { width:100%; border-collapse:collapse; margin-top:15px; background:white; }
+  th, td { border:1px solid #ccc; padding:10px; text-align:left; }
+  th { background:#f0f0f0; }
+  .form-group { margin-bottom:10px; }
+  .btn { cursor:pointer; }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <span class="menu-btn material-icons" id="menuBtn">more_vert</span>
-  <h2>N-Sikhi Atracker</h2>
-  <button class="logout-btn" id="logoutBtn">Logout</button>
+<div id="sidebar">
+  <button id="teacherManagerBtn">Teacher Management</button>
+  <button id="dashboardBtn">Dashboard Home</button>
 </div>
 
-<div class="sidebar" id="sidebar">
-  <h3>Menu</h3>
-  <ul>
-    <li><span class="material-icons">people</span>Teacher Manager</li>
-    <li><span class="material-icons">school</span>Student Manager</li>
-    <li><span class="material-icons">class</span>Classes Manager</li>
-    <li><span class="material-icons">menu_book</span>Subjects Manager</li>
-    <li><span class="material-icons">assessment</span>Reports</li>
-  </ul>
+<div id="main">
+  <h2>Welcome to Admin Dashboard</h2>
 </div>
 
-<div class="main">
-  <div class="cards">
-    <div class="card"><span class="material-icons">people</span><h3>Teacher Manager</h3></div>
-    <div class="card"><span class="material-icons">school</span><h3>Student Manager</h3></div>
-    <div class="card"><span class="material-icons">class</span><h3>Classes Manager</h3></div>
-    <div class="card"><span class="material-icons">menu_book</span><h3>Subjects Manager</h3></div>
-    <div class="card"><span class="material-icons">assessment</span><h3>Reports</h3></div>
-  </div>
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const sidebar = document.getElementById('sidebar');
-const menuBtn = document.getElementById('menuBtn');
-const logoutBtn = document.getElementById('logoutBtn');
-const cards = document.querySelectorAll('.card');
+  // Supabase credentials
+  const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Toggle sidebar
-menuBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('active');
-});
+  const main = document.getElementById('main');
 
-// Logout
-logoutBtn.addEventListener('click', () => {
-  localStorage.removeItem('isLoggedIn');
-  localStorage.removeItem('userType');
-  window.location.href = 'index.html';
-});
-
-// Session check
-const userType = localStorage.getItem('userType');
-const isLoggedIn = localStorage.getItem('isLoggedIn');
-if(isLoggedIn !== "true" || userType !== "admin"){
-  window.location.href = "index.html";
-}
-
-// Animate cards on page load
-window.addEventListener('load', () => {
-  cards.forEach((card, index) => {
-    setTimeout(() => card.classList.add('visible'), index * 150);
+  document.getElementById('teacherManagerBtn').addEventListener('click', loadTeacherManager);
+  document.getElementById('dashboardBtn').addEventListener('click', () => {
+    main.innerHTML = '<h2>Welcome to Admin Dashboard</h2>';
   });
-});
+
+  async function loadTeacherManager() {
+    main.innerHTML = `
+      <h2>Teacher Management</h2>
+      <div id="addTeacherForm">
+        <h3>Add Teacher</h3>
+        <div class="form-group"><input type="text" id="teacherName" placeholder="Name"></div>
+        <div class="form-group"><input type="text" id="teacherUserId" placeholder="User ID"></div>
+        <div class="form-group"><input type="password" id="teacherPassword" placeholder="Password"></div>
+        <button class="btn" onclick="addTeacher()">Add Teacher</button>
+      </div>
+
+      <h3>Existing Teachers</h3>
+      <table id="teacherTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>User ID</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    `;
+    await loadTeachers();
+  }
+
+  async function loadTeachers() {
+    const { data: teachers, error } = await supabase.from('teacher').select('*').order('created_at', { ascending: false });
+    if (error) { console.error(error); return; }
+    const tbody = document.querySelector('#teacherTable tbody');
+    tbody.innerHTML = '';
+    teachers.forEach(t => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${t.name}</td>
+          <td>${t.user_id}</td>
+          <td>${t.password}</td>
+          <td>
+            <button onclick="editTeacher('${t.id}', '${t.name}', '${t.user_id}', '${t.password}')">Edit</button>
+            <button onclick="deleteTeacher('${t.id}')">Delete</button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  async function addTeacher() {
+    const name = document.getElementById('teacherName').value.trim();
+    const user_id = document.getElementById('teacherUserId').value.trim();
+    const password = document.getElementById('teacherPassword').value.trim();
+    if(!name || !user_id || !password){ alert('Please fill all fields'); return; }
+
+    const { data, error } = await supabase.from('teacher').insert([{ name, user_id, password }]);
+    if(error){ alert('Error adding teacher'); console.error(error); return; }
+    alert('Teacher added successfully!');
+    document.getElementById('teacherName').value = '';
+    document.getElementById('teacherUserId').value = '';
+    document.getElementById('teacherPassword').value = '';
+    loadTeachers();
+  }
+
+  function editTeacher(id, oldName, oldUserId, oldPassword){
+    main.innerHTML = `
+      <h2>Edit Teacher</h2>
+      <div id="editTeacherForm">
+        <div class="form-group"><input type="text" id="editName" value="${oldName}" placeholder="Name"></div>
+        <div class="form-group"><input type="text" id="editUserId" value="${oldUserId}" placeholder="User ID"></div>
+        <div class="form-group"><input type="text" id="editPassword" value="${oldPassword}" placeholder="Password"></div>
+        <button class="btn" onclick="updateTeacher('${id}')">Update Teacher</button>
+        <button class="btn" onclick="loadTeacherManager()">Cancel</button>
+      </div>
+    `;
+  }
+
+  async function updateTeacher(id){
+    const newName = document.getElementById('editName').value.trim();
+    const newUserId = document.getElementById('editUserId').value.trim();
+    const newPassword = document.getElementById('editPassword').value.trim();
+    if(!newName || !newUserId || !newPassword){ alert('Fill all fields'); return; }
+
+    const { data, error } = await supabase.from('teacher').update({ name: newName, user_id: newUserId, password: newPassword }).eq('id', id);
+    if(error){ alert('Error updating teacher'); console.error(error); return; }
+    alert('Teacher updated successfully!');
+    loadTeacherManager();
+  }
+
+  async function deleteTeacher(id){
+    if(!confirm('Are you sure you want to delete this teacher?')) return;
+    const { data, error } = await supabase.from('teacher').delete().eq('id', id);
+    if(error){ alert('Error deleting teacher'); console.error(error); return; }
+    alert('Teacher deleted!');
+    loadTeachers();
+  }
 </script>
 
 </body>
