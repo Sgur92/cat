@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  h2 { margin-top: 40px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  th { background: #f4f4f4; }
+  input, select, button { padding: 5px; margin: 2px; }
+</style>
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<!-- Classes Section -->
+<h2>Classes</h2>
+<div>
+  Name: <input id="className" placeholder="Class Name">
+  <button onclick="addClass()">Add Class</button>
+</div>
+<table id="classesTable">
+  <thead>
+    <tr><th>ID</th><th>Name</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Subjects Section -->
+<h2>Subjects</h2>
+<div>
+  Name: <input id="subjectName" placeholder="Subject Name">
+  <button onclick="addSubject()">Add Subject</button>
+</div>
+<table id="subjectsTable">
+  <thead>
+    <tr><th>ID</th><th>Name</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Teachers Section -->
+<h2>Teachers</h2>
+<div>
+  Name: <input id="teacherName" placeholder="Teacher Name">
+  Email: <input id="teacherEmail" placeholder="Email">
+  Password: <input id="teacherPassword" placeholder="Password">
+  <button onclick="addTeacher()">Add Teacher</button>
+</div>
+<table id="teachersTable">
+  <thead>
+    <tr><th>ID</th><th>Name</th><th>Email</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Students Section -->
+<h2>Students</h2>
+<div>
+  Name: <input id="studentName" placeholder="Student Name">
+  Class: <select id="studentClass"></select>
+  <button onclick="addStudent()">Add Student</button>
+</div>
+<table id="studentsTable">
+  <thead>
+    <tr><th>ID</th><th>Name</th><th>Class</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Teacher-Class-Subject Assignment -->
+<h2>Assign Class & Subject to Teacher</h2>
+<div>
+  Teacher: <select id="assignTeacher"></select>
+  Class: <select id="assignClass"></select>
+  Subject: <select id="assignSubject"></select>
+  <button onclick="assignClassSubject()">Assign</button>
+</div>
+<table id="teacherClassSubjectTable">
+  <thead>
+    <tr><th>ID</th><th>Teacher</th><th>Class</th><th>Subject</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Test Teacher Dashboard -->
+<h2>Test Teacher Dashboard</h2>
+<div>
+  Teacher: <select id="testTeacher"></select>
+  Class: <select id="testClass" onchange="fetchSubjectsForTest()"></select>
+  Subject: <select id="testSubject" onchange="fetchStudentsForTest()"></select>
+</div>
+<table id="testStudentsTable">
+  <thead>
+    <tr><th>Student ID</th><th>Name</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+// Supabase client v2
+const supabaseUrl = 'https://yqvcoxujvwwhwoivqehh.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxdmNveHVqdnd3aHdvaXZxZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5MDQyNTksImV4cCI6MjA3NDQ4MDI1OX0.rZVrOUjNItrqX8cz58GBGsfQLvxLbjiHAK9cVm9bD3k';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+//////////////////////////////
+// Classes
+async function fetchClasses() {
+  const { data, error } = await supabaseClient.from('classes').select('*');
+  if(error) { console.error(error); return; }
+  const tbody = document.querySelector('#classesTable tbody');
+  tbody.innerHTML = '';
+  const select = document.getElementById('studentClass');
+  const assignClass = document.getElementById('assignClass');
+  const testClass = document.getElementById('testClass');
+  select.innerHTML = '';
+  assignClass.innerHTML = '';
+  testClass.innerHTML = '';
+  data.forEach(c => {
+    tbody.innerHTML += `<tr>
+      <td>${c.id}</td>
+      <td>${c.name}</td>
+      <td><button onclick="deleteClass(${c.id})">Delete</button></td>
+    </tr>`;
+    select.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+    assignClass.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+    testClass.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+  });
+}
+async function addClass() {
+  const name = document.getElementById('className').value;
+  const { error } = await supabaseClient.from('classes').insert([{ name }]);
+  if(error) { console.error(error); return; }
+  fetchClasses();
+}
+async function deleteClass(id) {
+  const { error } = await supabaseClient.from('classes').delete().eq('id', id);
+  if(error) { console.error(error); return; }
+  fetchClasses();
+}
+
+//////////////////////////////
+// Subjects
+async function fetchSubjects() {
+  const { data, error } = await supabaseClient.from('subjects').select('*');
+  if(error) { console.error(error); return; }
+  const tbody = document.querySelector('#subjectsTable tbody');
+  tbody.innerHTML = '';
+  const assignSubject = document.getElementById('assignSubject');
+  assignSubject.innerHTML = '';
+  data.forEach(s => {
+    tbody.innerHTML += `<tr>
+      <td>${s.id}</td>
+      <td>${s.name}</td>
+      <td><button onclick="deleteSubject(${s.id})">Delete</button></td>
+    </tr>`;
+    assignSubject.innerHTML += `<option value="${s.id}">${s.name}</option>`;
+  });
+}
+async function addSubject() {
+  const name = document.getElementById('subjectName').value;
+  const { error } = await supabaseClient.from('subjects').insert([{ name }]);
+  if(error) { console.error(error); return; }
+  fetchSubjects();
+}
+async function deleteSubject(id) {
+  const { error } = await supabaseClient.from('subjects').delete().eq('id', id);
+  if(error) { console.error(error); return; }
+  fetchSubjects();
+}
+
+//////////////////////////////
+// Teachers
+async function fetchTeachers() {
+  const { data, error } = await supabaseClient.from('teachers').select('*');
+  if(error) { console.error(error); return; }
+  const tbody = document.querySelector('#teachersTable tbody');
+  const assignTeacher = document.getElementById('assignTeacher');
+  const testTeacher = document.getElementById('testTeacher');
+  tbody.innerHTML = '';
+  assignTeacher.innerHTML = '';
+  testTeacher.innerHTML = '';
+  data.forEach(t => {
+    tbody.innerHTML += `<tr>
+      <td>${t.id}</td>
+      <td>${t.name}</td>
+      <td>${t.email}</td>
+      <td><button onclick="deleteTeacher(${t.id})">Delete</button></td>
+    </tr>`;
+    assignTeacher.innerHTML += `<option value="${t.id}">${t.name}</option>`;
+    testTeacher.innerHTML += `<option value="${t.id}">${t.name}</option>`;
+  });
+}
+async function addTeacher() {
+  const name = document.getElementById('teacherName').value;
+  const email = document.getElementById('teacherEmail').value;
+  const password = document.getElementById('teacherPassword').value;
+  const { error } = await supabaseClient.from('teachers').insert([{ name, email, password }]);
+  if(error) { console.error(error); return; }
+  fetchTeachers();
+}
+async function deleteTeacher(id) {
+  const { error } = await supabaseClient.from('teachers').delete().eq('id', id);
+  if(error) { console.error(error); return; }
+  fetchTeachers();
+}
+
+//////////////////////////////
+// Students
+async function fetchStudents() {
+  const { data, error } = await supabaseClient.from('students').select('id, name, class_id, classes(name)').order('id');
+  if(error) { console.error(error); return; }
+  const tbody = document.querySelector('#studentsTable tbody');
+  tbody.innerHTML = '';
+  data.forEach(s => {
+    tbody.innerHTML += `<tr>
+      <td>${s.id}</td>
+      <td>${s.name}</td>
+      <td>${s.classes.name}</td>
+      <td><button onclick="deleteStudent(${s.id})">Delete</button></td>
+    </tr>`;
+  });
+}
+async function addStudent() {
+  const name = document.getElementById('studentName').value;
+  const class_id = document.getElementById('studentClass').value;
+  const { error } = await supabaseClient.from('students').insert([{ name, class_id }]);
+  if(error) { console.error(error); return; }
+  fetchStudents();
+}
+async function deleteStudent(id) {
+  const { error } = await supabaseClient.from('students').delete().eq('id', id);
+  if(error) { console.error(error); return; }
+  fetchStudents();
+}
+
+//////////////////////////////
+// Teacher-Class-Subject Assignment
+async function fetchTeacherClassSubjectTable() {
+  const { data, error } = await supabaseClient.from('teacher_class_subject')
+    .select('id, teacher_id, class_id, subject_id, teachers(name), classes(name), subjects(name)')
+    .order('id');
+  if(error) { console.error(error); return; }
+
+  const tbody = document.querySelector('#teacherClassSubjectTable tbody');
+  tbody.innerHTML = '';
+  data.forEach(row => {
+    tbody.innerHTML += `<tr>
+      <td>${row.id}</td>
+      <td>${row.teachers.name}</td>
+      <td>${row.classes.name}</td>
+      <td>${row.subjects.name}</td>
+      <td><button onclick="deleteTeacherClassSubject(${row.id})">Delete</button></td>
+    </tr>`;
+  });
+}
+
+async function assignClassSubject() {
+  const teacher_id = document.getElementById('assignTeacher').value;
+  const class_id = document.getElementById('assignClass').value;
+  const subject_id = document.getElementById('assignSubject').value;
+
+  const { error } = await supabaseClient.from('teacher_class_subject').insert([{ teacher_id, class_id, subject_id }]);
+  if(error) { console.error(error); return; }
+  fetchTeacherClassSubjectTable();
+}
+
+async function deleteTeacherClassSubject(id) {
+  const { error } = await supabaseClient.from('teacher_class_subject').delete().eq('id', id);
+  if(error) { console.error(error); return; }
+  fetchTeacherClassSubjectTable();
+}
+
+//////////////////////////////
+// Test Teacher Dashboard
+async function fetchClassesForTest() {
+  const teacher_id = document.getElementById('testTeacher').value;
+  const { data, error } = await supabaseClient.from('teacher_class_subject')
+    .select('class_id, classes(name)')
+    .eq('teacher_id', teacher_id)
+    .join('classes', 'class_id', 'id', 'classes');
+  if(error) { console.error(error); return; }
+
+  const testClass = document.getElementById('testClass');
+  testClass.innerHTML = '';
+  data.forEach(c => {
+    testClass.innerHTML += `<option value="${c.class_id}">${c.classes.name}</option>`;
+  });
+  fetchSubjectsForTest();
+}
+
+async function fetchSubjectsForTest() {
+  const teacher_id = document.getElementById('testTeacher').value;
+  const class_id = document.getElementById('testClass').value;
+  const { data, error } = await supabaseClient.from('teacher_class_subject')
+    .select('subject_id, subjects(name)')
+    .eq('teacher_id', teacher_id)
+    .eq('class_id', class_id)
+    .join('subjects', 'subject_id', 'id', 'subjects');
+  if(error) { console.error(error); return; }
+
+  const testSubject = document.getElementById('testSubject');
+  testSubject.innerHTML = '';
+  data.forEach(s => {
+    testSubject.innerHTML += `<option value="${s.subject_id}">${s.subjects.name}</option>`;
+  });
+  fetchStudentsForTest();
+}
+
+async function fetchStudentsForTest() {
+  const class_id = document.getElementById('testClass').value;
+  const { data, error } = await supabaseClient.from('students')
+    .select('*')
+    .eq('class_id', class_id);
+  if(error) { console.error(error); return; }
+
+  const tbody = document.querySelector('#testStudentsTable tbody');
+  tbody.innerHTML = '';
+  data.forEach(s => {
+    tbody.innerHTML += `<tr><td>${s.id}</td><td>${s.name}</td></tr>`;
+  });
+}
+
+// Event listeners for test dashboard dropdowns
+document.getElementById('testTeacher').addEventListener('change', fetchClassesForTest);
+document.getElementById('testClass').addEventListener('change', fetchSubjectsForTest);
+document.getElementById('testSubject').addEventListener('change', fetchStudentsForTest);
+
+// Initial load
+fetchClasses();
+fetchSubjects();
+fetchTeachers();
+fetchStudents();
+fetchTeacherClassSubjectTable();
+
+</script>
+</body>
+</html>
