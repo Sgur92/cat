@@ -151,31 +151,30 @@ body {
 .card { opacity:0; transform: translateY(20px); transition: all 0.6s ease; }
 .card.visible { opacity:1; transform: translateY(0); }
 
-/* Teacher Manager Section */
+/* Teacher Manager Form/Table Styling (Normal Size) */
 .teacher-section {
+  max-width: 700px;
+  margin: 20px auto;
   background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
-  padding:20px;
-  border-radius:15px;
+  backdrop-filter: blur(12px);
+  padding: 25px;
+  border-radius: 15px;
   box-shadow:0 10px 30px rgba(0,0,0,0.3);
   color:#fff;
-  max-width: 900px;  /* Normal size */
-  margin: 0 auto;    /* Centered */
 }
 .teacher-section h3 {
   margin-top:0;
   text-align:center;
   text-shadow:0 0 5px rgba(0,0,0,0.3);
+  font-size: 1.5rem;
 }
-.teacher-section input, 
-.teacher-section button {
-  width:100%;
-  padding:12px;
-  margin:8px 0;
+.teacher-section input, .teacher-section button {
+  width: 100%;
+  padding:10px;
+  margin:5px 0;
   border-radius:8px;
   border:none;
   outline:none;
-  font-size:0.95rem;
 }
 .teacher-section button {
   background:#ffd700;
@@ -183,23 +182,21 @@ body {
   font-weight:500;
   cursor:pointer;
   transition:0.3s;
+  width:auto;
+  min-width:120px;
+  display:inline-block;
+  margin-right:5px;
 }
 .teacher-section button:hover { background:#e6c200; }
-
-/* Responsive table */
 .teacher-section table {
   width:100%;
-  margin-top:15px;
+  margin-top:10px;
   border-collapse:collapse;
-  overflow-x:auto;
-  display:block;
 }
-.teacher-section table th, 
-.teacher-section table td {
+.teacher-section table th, .teacher-section table td {
   border:1px solid #ccc;
-  padding:10px;
+  padding:8px;
   color:#fff;
-  text-align:center;
 }
 .teacher-section table th {
   background: rgba(255,255,255,0.25);
@@ -209,14 +206,6 @@ body {
 @media(max-width:768px){
   .sidebar { left:-250px; }
   .sidebar.active ~ .main { margin-left:0; }
-  .teacher-section {
-    padding:15px;
-  }
-  .teacher-section input, 
-  .teacher-section button {
-    font-size:0.9rem;
-    padding:10px;
-  }
 }
 </style>
 </head>
@@ -286,7 +275,7 @@ window.addEventListener('load', () => {
 
 // Supabase initialization
 const supabaseUrl = 'https://zsdvjfmzeiejiyhwvkre.supabase.co';
-const supabaseKey = 'YOUR_SUPABASE_KEY_HERE';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZHZqZm16ZWllaml5aHd2a3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3Njk2MzEsImV4cCI6MjA3NDM0NTYzMX0.d1LfZ9ZokL-GBkhvjNkTh97lueDE5hnHhbHeAm7Awz4';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Teacher Manager Section
@@ -351,55 +340,4 @@ function loadTeacherManager() {
       const { error } = await supabaseClient.from('teacher').insert([{ name, user_id, password }]);
       if (error) throw error;
       alert('Teacher added!');
-      document.getElementById('nameInput').value = '';
-      document.getElementById('userIdInput').value = '';
-      document.getElementById('passwordInput').value = '';
-      fetchTeachers();
-    } catch (err) {
-      alert('Error adding teacher: ' + err.message);
-    }
-  });
-
-  window.deleteTeacher = async function(id) {
-    if (!confirm('Are you sure you want to delete this teacher?')) return;
-    try {
-      const { error } = await supabaseClient.from('teacher').delete().eq('id', id);
-      if (error) throw error;
-      alert('Teacher deleted!');
-      fetchTeachers();
-    } catch (err) {
-      alert('Error deleting teacher: ' + err.message);
-    }
-  }
-
-  window.editTeacher = function(id, oldName, oldUserId, oldPassword) {
-    const newName = prompt('Enter new name:', oldName);
-    if (newName === null) return;
-    const newUserId = prompt('Enter new User ID:', oldUserId);
-    if (newUserId === null) return;
-    const newPassword = prompt('Enter new Password:', oldPassword);
-    if (newPassword === null) return;
-
-    updateTeacher(id, newName, newUserId, newPassword);
-  }
-
-  async function updateTeacher(id, name, user_id, password) {
-    try {
-      const { error } = await supabaseClient.from('teacher').update({ name, user_id, password }).eq('id', id);
-      if (error) throw error;
-      alert('Teacher updated!');
-      fetchTeachers();
-    } catch (err) {
-      alert('Error updating teacher: ' + err.message);
-    }
-  }
-
-  fetchTeachers();
-}
-
-// Load teacher manager when sidebar menu clicked
-teacherManagerMenu.addEventListener('click', loadTeacherManager);
-</script>
-
-</body>
-</html>
+      docu
