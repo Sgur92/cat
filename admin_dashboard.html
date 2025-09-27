@@ -295,6 +295,43 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 // Teacher Manager Section
 function loadTeacherManager() {
   main.innerHTML = `
+    <style>
+      .teacher-section {
+        max-width: 100%;
+        padding: 16px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+      }
+      .teacher-section input, 
+      .teacher-section button {
+        margin: 6px 4px;
+        padding: 8px;
+      }
+      .table-container {
+        max-height: 300px; /* adjust height as needed */
+        overflow-y: auto;
+        margin-top: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+      #teacherTable {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      #teacherTable th, #teacherTable td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      #teacherTable th {
+        background: #f2f2f2;
+        position: sticky;
+        top: 0;
+      }
+    </style>
+
     <div class="teacher-section">
       <h3>Teacher Management</h3>
       <input type="text" id="nameInput" placeholder="Name">
@@ -302,18 +339,23 @@ function loadTeacherManager() {
       <input type="password" id="passwordInput" placeholder="Password">
       <button id="addBtn">Add Teacher</button>
       <button id="fetchBtn">Fetch Teachers</button>
-      <table id="teacherTable">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>User ID</th>
-            <th>Password</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+
+      <div class="table-container">
+        <table id="teacherTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>User ID</th>
+              <th>Password</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
+  `;
+}
   `;
 
   const tbody = document.querySelector('#teacherTable tbody');
