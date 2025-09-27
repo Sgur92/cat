@@ -5,107 +5,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Atracker Institute</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Roboto', sans-serif;
-    }
-
     body {
-      display: flex;
-      height: 100vh;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
       color: #fff;
     }
 
-    /* Sidebar */
     .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
       width: 250px;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      transition: width 0.3s ease-in-out;
+      background: #111;
+      padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      transition: width 0.3s ease;
     }
 
     .sidebar h2 {
       text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.4rem;
+      margin-bottom: 20px;
+      font-weight: 700;
       color: #ffd700;
     }
 
-    .sidebar ul {
-      list-style: none;
-    }
-
-    .sidebar ul li {
-      margin: 15px 0;
-    }
-
-    .sidebar ul li a {
-      text-decoration: none;
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
       color: #fff;
-      display: block;
-      padding: 10px;
-      border-radius: 8px;
-      transition: 0.3s;
+      text-decoration: none;
+      transition: background 0.3s;
     }
 
-    .sidebar ul li a:hover {
-      background: #ffd700;
-      color: #1e3c72;
+    .sidebar a:hover {
+      background: #575757;
     }
 
-    /* Main Content */
-    .main-content {
-      flex: 1;
+    .sidebar .material-icons {
+      margin-right: 10px;
+    }
+
+    .main {
+      margin-left: 250px;
       padding: 20px;
-      overflow-y: auto;
     }
 
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
     }
 
     .header h1 {
-      font-size: 1.8rem;
-    }
-
-    .header button {
-      background: #ffd700;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
+      margin: 0;
+      font-size: 24px;
       font-weight: 500;
-      transition: 0.3s;
     }
 
-    .header button:hover {
-      background: #e6c200;
-    }
-
-    /* Teacher Manager Section */
     .teacher-section {
       max-width: 900px;
       margin: 2rem auto;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.15);
       backdrop-filter: blur(15px);
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       color: #fff;
     }
 
     .teacher-section h3 {
       margin-top: 0;
       text-align: center;
-      text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      text-shadow: 0 0 5px rgba(0,0,0,0.3);
     }
 
     .teacher-section input,
@@ -131,12 +107,15 @@
       background: #e6c200;
     }
 
-    /* Table styling */
+    /* Table wrapper to keep delete button inside box */
+    .table-wrapper {
+      margin-top: 15px;
+      overflow-x: auto;
+    }
+
     .teacher-section table {
       width: 100%;
-      margin-top: 15px;
       border-collapse: collapse;
-      table-layout: fixed;
     }
 
     .teacher-section table th,
@@ -145,120 +124,99 @@
       padding: 8px;
       color: #fff;
       text-align: left;
-      word-wrap: break-word;
+      white-space: nowrap;
     }
 
     .teacher-section table th {
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255,255,255,0.25);
     }
 
-    .teacher-section table td button {
-      width: 100%;
-      margin: 2px 0;
-      padding: 5px;
-      font-size: 0.85rem;
-      border-radius: 5px;
-      background: #ffd700;
-      color: #1e3c72;
-    }
-
-    .teacher-section table td button:hover {
-      background: #e6c200;
-    }
-
-    /* Responsive */
     @media (max-width: 768px) {
       .teacher-section {
         padding: 15px;
         margin: 1rem;
       }
+
       .teacher-section table {
         font-size: 0.9rem;
-      }
-    }
-
-    @media(max-width: 500px) {
-      .teacher-section table {
-        display: block;
-        overflow-x: auto;
       }
     }
   </style>
 </head>
 <body>
   <div class="sidebar">
-    <h2>Atracker Institute</h2>
-    <ul>
-      <li><a href="#" onclick="showSection('dashboard')">Dashboard</a></li>
-      <li><a href="#" onclick="showSection('teachers')">Teacher Manager</a></li>
-      <li><a href="#">Students</a></li>
-      <li><a href="#">Attendance</a></li>
-      <li><a href="#">Reports</a></li>
-    </ul>
+    <h2>Atracker</h2>
+    <a href="#"><span class="material-icons">dashboard</span>Dashboard</a>
+    <a href="#" onclick="showTeacherManager()"><span class="material-icons">school</span>Teacher Management</a>
+    <a href="#"><span class="material-icons">settings</span>Settings</a>
   </div>
 
-  <div class="main-content">
+  <div class="main">
     <div class="header">
-      <h1>Admin Dashboard</h1>
-      <button>Logout</button>
+      <h1>Welcome Admin</h1>
+      <button style="background:#e63946;color:#fff;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;">Logout</button>
     </div>
 
-    <!-- Dashboard Section -->
-    <div id="dashboard" class="content-section">
-      <h2>Welcome to the Admin Dashboard</h2>
-      <p>Select an option from the sidebar to manage.</p>
-    </div>
-
-    <!-- Teacher Manager Section -->
-    <div id="teachers" class="content-section" style="display: none;">
-      <div class="teacher-section">
-        <h3>Teacher Manager</h3>
-        <input type="text" id="teacherName" placeholder="Enter Teacher Name">
-        <input type="text" id="teacherSubject" placeholder="Enter Subject">
-        <button onclick="addTeacher()">Add Teacher</button>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Subject</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="teacherTable">
-            <!-- Teacher rows will go here -->
-          </tbody>
-        </table>
-      </div>
+    <div id="contentArea">
+      <h2>Dashboard Overview</h2>
+      <p>Select a menu item from the sidebar.</p>
     </div>
   </div>
 
   <script>
-    function showSection(section) {
-      document.querySelectorAll('.content-section').forEach(sec => sec.style.display = 'none');
-      document.getElementById(section).style.display = 'block';
+    function showTeacherManager() {
+      document.getElementById('contentArea').innerHTML = `
+        <div class="teacher-section">
+          <h3>Teacher Manager</h3>
+          <input type="text" placeholder="Teacher Name" id="teacherName" />
+          <input type="text" placeholder="Subject" id="teacherSubject" />
+          <input type="text" placeholder="User ID" id="teacherUserId" />
+          <input type="password" placeholder="Password" id="teacherPassword" />
+          <button onclick="addTeacher()">Add Teacher</button>
+          <div class="table-wrapper">
+            <table id="teacherTable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Subject</th>
+                  <th>User ID</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      `;
     }
 
     function addTeacher() {
       const name = document.getElementById('teacherName').value;
       const subject = document.getElementById('teacherSubject').value;
+      const userId = document.getElementById('teacherUserId').value;
 
-      if (name && subject) {
-        const table = document.getElementById('teacherTable');
-        const row = table.insertRow();
-        row.insertCell(0).innerText = name;
-        row.insertCell(1).innerText = subject;
-        const actionCell = row.insertCell(2);
-        actionCell.innerHTML = '<button onclick="deleteTeacher(this)">Delete</button>';
-
-        document.getElementById('teacherName').value = '';
-        document.getElementById('teacherSubject').value = '';
-      } else {
-        alert("Please enter both name and subject");
+      if (!name || !subject || !userId) {
+        alert("Please fill all fields");
+        return;
       }
+
+      const table = document.getElementById('teacherTable').getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+
+      newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${subject}</td>
+        <td>${userId}</td>
+        <td><button onclick="deleteRow(this)">Delete</button></td>
+      `;
+
+      document.getElementById('teacherName').value = "";
+      document.getElementById('teacherSubject').value = "";
+      document.getElementById('teacherUserId').value = "";
+      document.getElementById('teacherPassword').value = "";
     }
 
-    function deleteTeacher(button) {
+    function deleteRow(button) {
       const row = button.parentElement.parentElement;
       row.remove();
     }
