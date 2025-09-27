@@ -153,51 +153,72 @@ body {
 
 /* Teacher Manager Form/Table Styling */
 .teacher-section {
+  max-width: 900px;       
+  margin: 2rem auto;      
   background: rgba(255,255,255,0.15);
   backdrop-filter: blur(15px);
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-  color:#fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  color: #fff;
 }
+
 .teacher-section h3 {
-  margin-top:0;
-  text-align:center;
-  text-shadow:0 0 5px rgba(0,0,0,0.3);
+  margin-top: 0;
+  text-align: center;
+  text-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
+
 .teacher-section input, .teacher-section button {
-  width:100%;
-  padding:10px;
-  margin:5px 0;
-  border-radius:8px;
-  border:none;
-  outline:none;
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
 }
+
 .teacher-section button {
-  background:#ffd700;
-  color:#1e3c72;
-  font-weight:500;
-  cursor:pointer;
-  transition:0.3s;
+  background: #ffd700;
+  color: #1e3c72;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
 }
-.teacher-section button:hover { background:#e6c200; }
+
+.teacher-section button:hover { background: #e6c200; }
+
+/* Table styling */
 .teacher-section table {
-  width:100%;
-  margin-top:10px;
-  border-collapse:collapse;
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
 }
+
 .teacher-section table th, .teacher-section table td {
-  border:1px solid #ccc;
-  padding:8px;
-  color:#fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  color: #fff;
+  text-align: left;
+  white-space: nowrap;
 }
+
 .teacher-section table th {
   background: rgba(255,255,255,0.25);
 }
 
 /* Responsive */
-@media(max-width:768px){
-  .sidebar { left:-250px; }
+@media (max-width: 768px) {
+  .teacher-section {
+    padding: 15px;
+    margin: 1rem;
+  }
+  .teacher-section table {
+    font-size: 0.9rem;
+  }
   .sidebar.active ~ .main { margin-left:0; }
 }
 </style>
@@ -385,4 +406,3 @@ teacherManagerMenu.addEventListener('click', loadTeacherManager);
 
 </body>
 </html>
-            
