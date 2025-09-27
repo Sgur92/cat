@@ -68,7 +68,7 @@
     }
 
     .teacher-section {
-      max-width: 950px;
+      max-width: 1000px;
       margin: 2rem auto;
       background: rgba(255,255,255,0.15);
       backdrop-filter: blur(15px);
@@ -116,7 +116,7 @@
     .teacher-section table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* Ensures fixed widths */
+      table-layout: fixed; /* Ensures equal width distribution */
     }
 
     .teacher-section table th,
@@ -128,35 +128,43 @@
       word-wrap: break-word;
     }
 
-    /* Set specific column widths */
+    .teacher-section table th {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* Specific column widths */
     .teacher-section table th:nth-child(1),
     .teacher-section table td:nth-child(1) {
-      width: 25%; /* Name */
+      width: 25%;
     }
     .teacher-section table th:nth-child(2),
     .teacher-section table td:nth-child(2) {
-      width: 25%; /* Subject */
+      width: 25%;
     }
     .teacher-section table th:nth-child(3),
     .teacher-section table td:nth-child(3) {
-      width: 30%; /* User ID */
+      width: 25%;
     }
     .teacher-section table th:nth-child(4),
     .teacher-section table td:nth-child(4) {
-      width: 20%; /* Action */
+      width: 25%; /* Action column made wider */
       text-align: center;
     }
 
-    /* Keep delete button inside cell */
+    /* Delete button inside table */
     .teacher-section table td button {
-      width: 80%;
-      padding: 6px 10px;
-      font-size: 0.9rem;
-      white-space: nowrap;
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      background: #e63946;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    .teacher-section table th {
-      background: rgba(255,255,255,0.25);
+    .teacher-section table td button:hover {
+      background: #c92d3f;
     }
 
     @media (max-width: 768px) {
@@ -164,13 +172,8 @@
         padding: 15px;
         margin: 1rem;
       }
-
       .teacher-section table {
         font-size: 0.9rem;
-      }
-
-      .teacher-section table td button {
-        width: 100%;
       }
     }
   </style>
