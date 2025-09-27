@@ -1,1 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Atracker Institute</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+    }
 
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 250px;
+      background: #111;
+      padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      transition: width 0.3s ease;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #ffd700;
+    }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background: #575757;
+    }
+
+    .sidebar .material-icons {
+      margin-right: 10px;
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    .teacher-section {
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(15px);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      color: #fff;
+    }
+
+    .teacher-section h3 {
+      margin-top: 0;
+      text-align: center;
+      text-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+
+    .teacher-section input,
+    .teacher-section button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .teacher-section button {
+      background: #ffd700;
+      color: #1e3c72;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .teacher-section button:hover {
+      background: #e6c200;
+    }
+
+    /* Table wrapper */
+    .table-wrapper {
+      margin-top: 15px;
+      overflow-x: auto;
+    }
+
+    .teacher-section table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed; /* Ensures equal width distribution */
+    }
+
+    .teacher-section table th,
+    .teacher-section table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      color: #fff;
+      text-align: left;
+      word-wrap: break-word;
+    }
+
+    .teacher-section table th {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* Specific column widths */
+    .teacher-section table th:nth-child(1),
+    .teacher-section table td:nth-child(1) {
+      width: 25%;
+    }
+    .teacher-section table th:nth-child(2),
+    .teacher-section table td:nth-child(2) {
+      width: 25%;
+    }
+    .teacher-section table th:nth-child(3),
+    .teacher-section table td:nth-child(3) {
+      width: 25%;
+    }
+    .teacher-section table th:nth-child(4),
+    .teacher-section table td:nth-child(4) {
+      width: 25%; /* Action column made wider */
+      text-align: center;
+    }
+
+    /* Delete button inside table */
+    .teacher-section table td button {
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      background: #e63946;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .teacher-section table td button:hover {
+      background: #c92d3f;
+    }
+
+    @media (max-width: 768px) {
+      .teacher-section {
+        padding: 15px;
+        margin: 1rem;
+      }
+      .teacher-section table {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Atracker</h2>
+    <a href="#"><span class="material-icons">dashboard</span>Dashboard</a>
+    <a href="#" onclick="showTeacherManager()"><span class="material-icons">school</span>Teacher Management</a>
+    <a href="#"><span class="material-icons">settings</span>Settings</a>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>Welcome Admin</h1>
+      <button style="background:#e63946;color:#fff;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;">Logout</button>
+    </div>
+
+    <div id="contentArea">
+      <h2>Dashboard Overview</h2>
+      <p>Select a menu item from the sidebar.</p>
+    </div>
+  </div>
+
+  <script>
+    function showTeacherManager() {
+      document.getElementById('contentArea').innerHTML = `
+        <div class="teacher-section">
+          <h3>Teacher Manager</h3>
+          <input type="text" placeholder="Teacher Name" id="teacherName" />
+          <input type="text" placeholder="Subject" id="teacherSubject" />
+          <input type="text" placeholder="User ID" id="teacherUserId" />
+          <input type="password" placeholder="Password" id="teacherPassword" />
+          <button onclick="addTeacher()">Add Teacher</button>
+          <div class="table-wrapper">
+            <table id="teacherTable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Subject</th>
+                  <th>User ID</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function addTeacher() {
+      const name = document.getElementById('teacherName').value;
+      const subject = document.getElementById('teacherSubject').value;
+      const userId = document.getElementById('teacherUserId').value;
+
+      if (!name || !subject || !userId) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      const table = document.getElementById('teacherTable').getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+
+      newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${subject}</td>
+        <td>${userId}</td>
+        <td><button onclick="deleteRow(this)">Delete</button></td>
+      `;
+
+      document.getElementById('teacherName').value = "";
+      document.getElementById('teacherSubject').value = "";
+      document.getElementById('teacherUserId').value = "";
+      document.getElementById('teacherPassword').value = "";
+    }
+
+    function deleteRow(button) {
+      const row = button.parentElement.parentElement;
+      row.remove();
+    }
+  </script>
+</body>
+</html>
