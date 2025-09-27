@@ -68,7 +68,7 @@
     }
 
     .teacher-section {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 2rem auto;
       background: rgba(255,255,255,0.15);
       backdrop-filter: blur(15px);
@@ -107,7 +107,7 @@
       background: #e6c200;
     }
 
-    /* Table wrapper */
+    /* Table wrapper to keep delete button inside box */
     .table-wrapper {
       margin-top: 15px;
       overflow-x: auto;
@@ -116,55 +116,19 @@
     .teacher-section table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* Ensures equal width distribution */
     }
 
     .teacher-section table th,
     .teacher-section table td {
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 8px;
       color: #fff;
       text-align: left;
-      word-wrap: break-word;
+      white-space: nowrap;
     }
 
     .teacher-section table th {
       background: rgba(255,255,255,0.25);
-    }
-
-    /* Specific column widths */
-    .teacher-section table th:nth-child(1),
-    .teacher-section table td:nth-child(1) {
-      width: 25%;
-    }
-    .teacher-section table th:nth-child(2),
-    .teacher-section table td:nth-child(2) {
-      width: 25%;
-    }
-    .teacher-section table th:nth-child(3),
-    .teacher-section table td:nth-child(3) {
-      width: 25%;
-    }
-    .teacher-section table th:nth-child(4),
-    .teacher-section table td:nth-child(4) {
-      width: 25%; /* Action column made wider */
-      text-align: center;
-    }
-
-    /* Delete button inside table */
-    .teacher-section table td button {
-      padding: 6px 12px;
-      font-size: 14px;
-      border-radius: 6px;
-      background: #e63946;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .teacher-section table td button:hover {
-      background: #c92d3f;
     }
 
     @media (max-width: 768px) {
@@ -172,6 +136,7 @@
         padding: 15px;
         margin: 1rem;
       }
+
       .teacher-section table {
         font-size: 0.9rem;
       }
